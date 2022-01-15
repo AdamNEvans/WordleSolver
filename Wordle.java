@@ -35,6 +35,7 @@ public class Wordle
 		
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
+			System.out.println();
 //			System.out.println("words=" + possibleWords.toString());
 	        System.out.println("====================================================================================");
 			String guess = getNextGuess();
@@ -44,13 +45,18 @@ public class Wordle
 			if (guess.equals(goal))
 			{
 				System.out.println("SUCCESS!!!");
-				System.out.println("Took " + i + " guesses");
+				System.out.println("Took " + (i + 1) + " guesses");
 				System.exit(0);
 			}
 
 			processGuess(guess, goal);
 			possibleWords.remove(guess);
 		}
+
+		System.out.println();
+		System.out.println("FAILED");
+		System.out.println("Remaining possibilities:");
+		System.out.println(possibleWords.toString());
 	}
 
 	// =================================================================================
