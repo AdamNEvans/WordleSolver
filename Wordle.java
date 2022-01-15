@@ -51,6 +51,17 @@ public class Wordle
 
 			processGuess(guess, goal);
 			possibleWords.remove(guess);
+
+			if (possibleWords.size() < 200)
+			{
+				System.out.println();
+				System.out.println("Remaining possibilities: " + possibleWords.toString());
+			}
+			else
+			{
+				System.out.println();
+				System.out.println("Too many possibilities to list");
+			}
 		}
 
 		System.out.println();
