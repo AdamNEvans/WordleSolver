@@ -3,14 +3,16 @@ import java.util.*;
 
 public class Wordle
 {
-	public static final int WORD_SIZE = 5;
-	public static final int MAX_GUESSES = 6;
+	public static final int WORD_SIZE      = 5;
+	public static final int MAX_GUESSES    = 6;
+
+	public static final int STATUS_EXACT   = -1;
+	public static final int STATUS_WRONG   = -2;
+	public static final int STATUS_UNKNOWN = -3;
+//	public static final int STATUS_INEXACT;      // inexact matches are indicated by the index of the letter in the other string it corresponds to
 
 	// map of words to their character counts
 	public static ArrayList<String> possibleWords = new ArrayList<String>();
-
-	// map of characters to a list of their possible locations [0, WORD_SIZE - 1]
-	public static int[][] locations = new int[26][5];
 
 	// list of characters that must be in the string but we don't know their location
 	public static ArrayList<Integer> requiredChars = new ArrayList<Integer>();
@@ -22,14 +24,6 @@ public class Wordle
 		// initialize
 		loadWords();
 		System.out.println("Loaded " + possibleWords.size() + " words");
-
-		for (int i = 0; i < 26; i++)
-		{
-			for (int j = 0; j < WORD_SIZE; j++)
-			{
-				locations[i][j] = j;
-			}
-		}
 
 		// solve
 		Scanner in = new Scanner(System.in);
@@ -63,65 +57,123 @@ public class Wordle
 
 	public static void processGuess(String guess, String goal)
 	{
-		final char EXACT = 0;
-		final char WRONG_LOCATION_BIT = 128;
+		char[] guessChars = guess.toCharArray();  // letters of guess
+		char[] goalChars = goal.toCharArray();    // letters of goal
+		int[] guessStatus = new int[WORD_SIZE];   // status of each letter in guess
+		int[] goalStatus = new int[WORD_SIZE];    // status of each letter in goal
+		int[] inexactMatchCounts = new int[26];   // [x] = number of inexact matches for letter x
 
-		char[] guessChars = guess.toCharArray();
-		char[] goalChars = goal.toCharArray();
+		for (int i = 0; i < WORD_SIZE; i++)
+		{
+			guessStatus[i] = STATUS_UNKNOWN;
+			goalStatus[i] = STATUS_UNKNOWN;
+		}
 
-		// ------------------------------------
+		// -----------------------------------------------------------------------
+		// Get the statuses of every letter in the guess and goal
+		// -----------------------------------------------------------------------
 		// check for correct location letters
 		for (int i = 0; i < WORD_SIZE; i++)
 		{
 			if (guessChars[i] == goalChars[i])
 			{
 				System.out.println("Found exact match at position " + i);
-
-				int[] list = {i};
-				locations[guessChars[i] - 'a'] = list;
-
-				// remove possibilities that don't match
-				for (int j = 0; j < possibleWords.size(); j++)
-				{
-					if (possibleWords.get(j).charAt(i) != guessChars[i])
-					{
-//						System.out.println("removing '" + possibleWords.get(j) + "' because it doesn't contain '" + guessChars[i] + "' at position " + i);
-						possibleWords.remove(j);
-						j--;
-					}
-				}
-
-				goalChars[i] = EXACT;   // clear it so we don't match it again
-				guessChars[i] = EXACT;  // mark it so we don't check for it again
+				goalStatus[i] = STATUS_EXACT;
+				guessStatus[i] = STATUS_EXACT;
 			}
 		}
 
-		System.out.println("Removed words that don't contain exact matches -> " + possibleWords.size() + " possibilities left");
-
 		// ------------------------------------
 		// check for correct letters in the wrong location
-		int[] inexactMatchCounts = new int[26];
-
 		for (int i = 0; i < WORD_SIZE; i++)
 		{
-			if (guessChars[i] == 0)
+			if (guessChars[i] == STATUS_EXACT)
 			{
 				continue;
 			}
 
 			for (int j = 0; j < WORD_SIZE; j++)
 			{
-				if (guessChars[i] == goalChars[j] && goalChars[j] != 0)
+				if (guessChars[i] == goalChars[j] && goalStatus[j] != STATUS_EXACT)
 				{
 					System.out.println("Found inexact match of char " + i + " in guess and char " + j + " in goal");
 					inexactMatchCounts[guessChars[i] - 'a']++;
-					goalChars[j] |= WRONG_LOCATION_BIT;      // clear it so we don't match it again
-					guessChars[i] |= WRONG_LOCATION_BIT;
+					goalStatus[j] = i;
+					guessStatus[i] = j;
 				}
 			}
 		}
 
-		// remove possibilities that don't contain all inexact match letters
+		// ------------------------------------
+		// mark the rest of the letters wrong
+		for (int i = 0; i < WORD_SIZE; i++)
+		{
+			if (guessStatus[i] == STATUS_UNKNOWN)
+			{
+				guessStatus[i] = STATUS_WRONG;
+			}
+
+			if (goalStatus[i] == STATUS_UNKNOWN)
+			{
+				goalStatus[i] = STATUS_WRONG;
+			}
+		}
+
+		// -----------------------------------------------------------------------
+		// Start removing possibilities based on how well our guess did
+		// -----------------------------------------------------------------------
+		// Remove possibilities that don't contain all the exact matches
+		for (int i = 0; i < possibleWords.size(); i++)
+		{
+			String word = possibleWords.get(i);
+
+			for (int j = 0; j < WORD_SIZE; j++)
+			{
+				if (guessStatus[j] == STATUS_EXACT && word.charAt(j) != guessChars[j])
+				{
+//					System.out.println("removing '" + word + "' because it doesn't contain '" + guessChars[j] + "' at position " + j);
+					possibleWords.remove(i);
+					i--;
+					break;
+				}
+			}
+		}
+
+		System.out.println("Removed words that don't contain all exact matches -> " + possibleWords.size() + " possibilities left");
+
+		// ------------------------------------
+		// Remove possibilities containing letters that were neither exact nor inexact matches
+		for (int i = 0; i < possibleWords.size(); i++)
+		{
+			String word = possibleWords.get(i);
+
+			for (int j = 0; j < WORD_SIZE; j++)
+			{
+				if (guessStatus[j] == STATUS_WRONG &&
+					inexactMatchCounts[guessChars[j] - 'a'] == 0)    // ignore the scenario where we guess a duplicate letter but only one matches
+				{
+					int index = word.indexOf(guessChars[j]);
+
+					while (index >= 0 && ((goalStatus[index] == STATUS_EXACT) || (goalStatus[index] >= 0)))
+					{
+						index = word.indexOf(guessChars[j], index + 1);
+					}
+
+					if (index >= 0)
+					{
+//						System.out.println("Removing '" + word + "' because it contains unmatched letter '" + guessChars[j] + "' at index " + index);
+						possibleWords.remove(i);
+						i--;
+						break;
+					}
+				}
+			}
+		}
+
+		System.out.println("Removed words that contain unmatched letters -> " + possibleWords.size() + " possibilities left");
+
+		// ------------------------------------
+		// Remove possibilities that don't contain all inexact match letters
 		for (int i = 0; i < possibleWords.size(); i++)
 		{
 			boolean valid = true;
@@ -156,7 +208,7 @@ public class Wordle
 			}
 		}
 
-		System.out.println("Removed words that don't contain inexact matches -> " + possibleWords.size() + " possibilities left");
+		System.out.println("Removed words that don't contain all inexact matches -> " + possibleWords.size() + " possibilities left");
 
 		// ------------------------------------
 		// Remove possibilities that have the letters in the same locations as guess, but we know
@@ -169,16 +221,15 @@ public class Wordle
 
 			for (int j = 0; j < WORD_SIZE; j++)
 			{
-				if ((guessChars[j] & WRONG_LOCATION_BIT) != 0)
+				if (guessStatus[j] >= 0)
 				{
 					int index = -1;
-					char c = (char)(guessChars[j] & ~WRONG_LOCATION_BIT);
 
 					do
 					{
-					    index = word.indexOf(c, index + 1);
+					    index = word.indexOf(guessChars[j], index + 1);
 					}
-					while (index < 0 || guessChars[index] == EXACT);
+					while (index < 0 || guessStatus[index] == STATUS_EXACT);
 
 					if (index < 0)
 					{
@@ -191,49 +242,6 @@ public class Wordle
 		}
 
 		System.out.println("Removed words that contain inexact matches in exact match positions -> " + possibleWords.size() + " possibilities left");
-
-		// ------------------------------------
-		// Remove all words containing letters that were neither exact nor inexact matches
-		for (int i = 0; i < possibleWords.size(); i++)
-		{
-			String word = possibleWords.get(i);
-//			System.out.println("---------- analyzing '" + word + "'");
-
-			for (int j = 0; j < WORD_SIZE; j++)
-			{
-/*				System.out.print("char " + j + " (" + (int)guessChars[j] + ")");
-
-				if (guessChars[j] >= 'a' && guessChars[j] <= 'z')
-				{
-					System.out.println("; inexactMatchCounts=" + inexactMatchCounts[guessChars[j] - 'a']);
-				}
-				else
-				{
-					System.out.println();
-				} */
-
-				if (guessChars[j] != EXACT && ((guessChars[j] & WRONG_LOCATION_BIT) == 0) &&
-					inexactMatchCounts[guessChars[j] - 'a'] == 0)    // ignore the scenario where we guess a duplicate letter but only one matches
-				{
-					int index = word.indexOf(guessChars[j]);
-
-					while (index >= 0 && ((goalChars[index] == EXACT) || ((goalChars[index] & WRONG_LOCATION_BIT) != 0)))
-					{
-						index = word.indexOf(guessChars[j], index + 1);
-					}
-
-					if (index >= 0)// && goalChars[index] != EXACT)
-					{
-//						System.out.println("Removing '" + word + "' because it contains unmatched letter '" + guessChars[j] + "' at index " + index);
-						possibleWords.remove(i);
-						i--;
-						break;
-					}
-				}
-			}
-		}
-
-		System.out.println("Removed words that contain unmatched letters -> " + possibleWords.size() + " possibilities left");
 	}
 
 	// =================================================================================
