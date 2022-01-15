@@ -45,7 +45,7 @@ public class Wordle
 			{
 				System.out.println("SUCCESS!!!");
 				System.out.println("Took " + i + " guesses");
-				return;
+				System.exit(0);
 			}
 
 			processGuess(guess, goal);
@@ -308,7 +308,7 @@ public class Wordle
 
 	public static void loadWords() throws Exception
 	{
-		Scanner in = new Scanner(new File("/usr/share/dict/words"));
+		Scanner in = new Scanner(new File("words"));
 		
 		while (in.hasNextLine())
 		{
