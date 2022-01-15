@@ -246,7 +246,34 @@ public class Wordle
 			System.exit(1);
 		}
 
+		for (String word : possibleWords)
+		{
+			if (allCharsUnique(word))
+			{
+				return word;
+			}
+		}
+
 		return possibleWords.get(0);
+	}
+
+	// =================================================================================
+
+	public static boolean allCharsUnique(String word)
+	{
+		boolean[] found = new boolean[256];
+
+		for (char c : word.toCharArray())
+		{
+			if (found[c])
+			{
+				return false;
+			}
+
+			found[c] = true;
+		}
+
+		return true;
 	}
 
 	// =================================================================================
