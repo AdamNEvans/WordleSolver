@@ -1,0 +1,14 @@
+Add letter frequencies and use the possibility with the highest letter frequency sum
+- Multiples of a particular letter should only count toward the total sum once as opposed
+  to just blindly disallowing words with dupes. This will allow words with lots of common
+  letters but a dupe still have a higher frequency sum than a word with all unique but
+  uncommon letters.
+
+Use guess history to pick better guesses
+- For example, if we've guessed an A in the first position and it was correct but wrong
+  position, then for our next guess, try to get the A in a different position if the guess
+  has an A.
+
+Don't require picking a word from the possiblities
+- Known positions can be used to experiment with on subsequent guesses if unlikely to
+  guess the word on the next guess
