@@ -325,16 +325,11 @@ public class Wordle
 
 	public static void loadWords() throws Exception
 	{
-		Scanner in = new Scanner(new File("words"));
+		Scanner in = new Scanner(new File("words5.txt"));
 		
 		while (in.hasNextLine())
 		{
-			String word = in.nextLine().strip().toLowerCase();
-
-			if (word.length() == WORD_SIZE)
-			{
-				possibleWords.add(word);
-			}
+			possibleWords.add(in.nextLine().strip().toLowerCase());
 		}
 	}
 
