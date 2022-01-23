@@ -9,13 +9,14 @@ public class Wordle
 
 	public static void main(String[] args) throws Exception
 	{
-		GuessStrategy strategy = new GuessStrategy();
-		WordleSolver solver = new WordleSolver(loadWords(new File("words5.txt")));
+		Scanner in = new Scanner(System.in);
+		GuessStrategy strategy = getStrategy(in);
+		ArrayList<String> wordList = loadWords(new File("words5.txt"));
+		WordleSolver solver = new WordleSolver(wordList);
 
 		System.out.print("Enter goal word: ");
 		System.out.flush();
 
-		Scanner in = new Scanner(System.in);
 		String goal = in.nextLine().strip().toLowerCase();
 		System.out.println("Goal: '" + goal + "'");
 
@@ -39,6 +40,39 @@ public class Wordle
 		System.out.println("FAILED");
 		System.out.println("Remaining possibilities:");
 		System.out.println(solver.getPossibilities().toString());
+	}
+
+	// =================================================================================
+
+	public static GuessStrategy getStrategy(Scanner in)
+	{
+		GuessStrategy[] strategies = {
+			new NoDupesStrategy(),
+		};
+
+		while (true)
+		{
+			System.out.println("What guess strategy should I use?");
+
+			for (int i = 0; i < strategies.length; i++)
+			{
+				String defaultText = (i == 0 ? " (default)" : "");
+				System.out.println("" + i + ": " + strategies[i].getName() + defaultText);
+			}
+
+			try
+			{
+				int choice = Integer.parseInt(in.nextLine());
+
+				if (choice >= 0 && choice < strategies.length)
+				{
+					return strategies[choice];
+				}
+			}
+			catch (Exception e) {}   // ignore the exception if we fail to parse the int
+
+			System.out.println("ERROR: Invalid strategy");
+		}
 	}
 
 	// =================================================================================

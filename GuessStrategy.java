@@ -1,41 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class GuessStrategy
+public interface GuessStrategy
 {
-	// =================================================================================
+	// Return a name that can be displayed to the user
+	public String getName();
 
-	public String getBestGuess(Collection<String> words, Collection<Guess> guesses)
-	{
-        for (String word : words)
-        {
-            if (allCharsUnique(word))
-            {
-                return word;
-            }
-        }
-
-        return words.iterator().next();
-    }
-
-    // =================================================================================
-
-    public static boolean allCharsUnique(String word)
-    {
-        boolean[] found = new boolean[256];
-
-        for (char c : word.toCharArray())
-        {
-            if (found[c])
-            {
-                return false;
-            }
-
-            found[c] = true;
-        }
-
-        return true;
-    }
-
-	// =================================================================================
+	// Return the next word that should be used as a guess
+	public String getBestGuess(Collection<String> words, Collection<Guess> guesses);
 }
