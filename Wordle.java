@@ -40,7 +40,6 @@ public class Wordle
 
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
-			System.out.println();
 			Guess guess = new Guess(solver.getNextGuessWord(), null);
 			guess.populateResultsAgainst(goal);
 			solver.applyGuess(guess);
@@ -144,7 +143,7 @@ public class Wordle
 		if (choice == 0)
 		{
 			NoDupesSolver solver = (NoDupesSolver)solvers[choice];
-			solver.initialize(loadWords(new File("words5.txt")));
+			solver.initialize(loadWords(new File("words5.txt")), true);
 		}
 
 		return solvers[choice];

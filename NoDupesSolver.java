@@ -3,14 +3,16 @@ import java.util.*;
 
 public class NoDupesSolver implements WordleSolver
 {
-	Guess lastGuess;
-	ArrayList<String> answers;
+	private Guess lastGuess;
+	private ArrayList<String> answers;
+	private boolean printsEnabled;
 
 	// =================================================================================
 
-	public void initialize(Collection<String> possibleAnswers)
+	public void initialize(Collection<String> possibleAnswers, boolean enablePrints)
 	{
 		answers = new ArrayList<String>(possibleAnswers);
+		printsEnabled = enablePrints;
 	}
 
 	// =================================================================================
@@ -57,7 +59,10 @@ public class NoDupesSolver implements WordleSolver
 
 	public void applyGuess(Guess guess)
 	{
-		System.out.print("Processing guess " + guess + " -> ");
+		if (printsEnabled)
+		{
+			System.out.print("Processing guess " + guess + " -> ");
+		}
 
 		ArrayList<String> remaining = new ArrayList<String>();
 
@@ -72,18 +77,21 @@ public class NoDupesSolver implements WordleSolver
 		answers = remaining;
 		lastGuess = guess;
 
-		System.out.println("" + answers.size() + " possbilities left:");
-
-		if (answers.size() < 200)
+		if (printsEnabled)
 		{
-			System.out.println(answers);
-		}
-		else
-		{
-			System.out.println("Too many to list");
-		}
+			System.out.println("" + answers.size() + " possbilities left:");
 
-		System.out.println();
+			if (answers.size() < 200)
+			{
+				System.out.println(answers);
+			}
+			else
+			{
+				System.out.println("Too many to list");
+			}
+
+			System.out.println();
+		}
 	}
 
 	// =================================================================================
