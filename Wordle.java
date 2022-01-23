@@ -70,6 +70,13 @@ public class Wordle
 		WordleSolver solver = new WordleSolver(wordList);
 		GuessStrategy strategy = getStrategy(in);
 
+		System.out.println();
+		System.out.println("When entering guess results, enter one character per letter, using the key:");
+		System.out.println("  '.' -> letter is not in the goal word");
+		System.out.println("  '#' -> letter is in the correct position");
+		System.out.println("  '?' -> letter is in the wrong position");
+		System.out.println();
+
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
 			String recommendedGuessWord = solver.getNextGuessWord(strategy);
