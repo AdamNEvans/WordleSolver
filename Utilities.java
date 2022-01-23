@@ -55,6 +55,42 @@ public class Utilities
 	}
 
 	// =================================================================================
+	// @param resultString A string where each char represents the comparison result for
+	// that letter.
+	// '-' -> wrong
+	// '#' -> exact
+	// '?' -> inexact
+	public static LetterComparisonResult[] resultsFromString(String resultString)
+	{
+		char[] chars = resultString.toCharArray();
+		LetterComparisonResult[] results = new LetterComparisonResult[resultString.length()];
+
+		for (int i = 0; i < chars.length; i++)
+		{
+			switch (chars[i])
+			{
+				case '.':
+					results[i] = LetterComparisonResult.WRONG;
+					break;
+
+				case '#':
+					results[i] = LetterComparisonResult.EXACT;
+					break;
+
+				case '?':
+					results[i] = LetterComparisonResult.WRONG_INDEX;
+					break;
+
+				default:
+					System.out.println("ERROR: Invalid result char '" + chars[i] + "'");
+					break;
+			}
+		}
+
+		return results;
+	}
+
+	// =================================================================================
 
 	public static boolean allCharsUnique(String word)
 	{

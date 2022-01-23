@@ -10,7 +10,24 @@ public class Wordle
 	public static void main(String[] args) throws Exception
 	{
 		Scanner in = new Scanner(System.in);
-		GuessStrategy strategy = getStrategy(in);
+		System.out.println("Is the goal word known?");
+		String answer = in.nextLine();
+
+		if (answer.equals("y") || answer.equals("yes"))
+		{
+			autoplayKnownGoal();
+		}
+		else
+		{
+			playInteractiveWithUnknownGoal();
+		}
+	}
+
+	// =================================================================================
+
+	public static void autoplayKnownGoal() throws Exception
+	{
+		Scanner in = new Scanner(System.in);
 		ArrayList<String> wordList = loadWords(new File("words5.txt"));
 		WordleSolver solver = new WordleSolver(wordList);
 
@@ -19,6 +36,8 @@ public class Wordle
 
 		String goal = in.nextLine().strip().toLowerCase();
 		System.out.println("Goal: '" + goal + "'");
+
+		GuessStrategy strategy = getStrategy(in);
 
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
@@ -40,6 +59,32 @@ public class Wordle
 		System.out.println("FAILED");
 		System.out.println("Remaining possibilities:");
 		System.out.println(solver.getPossibilities().toString());
+	}
+
+	// =================================================================================
+
+	public static void playInteractiveWithUnknownGoal() throws Exception
+	{
+		Scanner in = new Scanner(System.in);
+		ArrayList<String> wordList = loadWords(new File("words5.txt"));
+		WordleSolver solver = new WordleSolver(wordList);
+		GuessStrategy strategy = getStrategy(in);
+
+		for (int i = 0; i < MAX_GUESSES; i++)
+		{
+			String recommendedGuessWord = solver.getNextGuessWord(strategy);
+			System.out.println("Recommended guess: '" + recommendedGuessWord + "'");
+			System.out.print("Enter your guess: ");
+			System.out.flush();
+			String guessWord = in.nextLine();
+
+			System.out.print("Enter the result: ");
+			System.out.flush();
+			String resultString = in.nextLine();
+			Guess guess = new Guess(guessWord, Utilities.resultsFromString(resultString));
+
+			solver.applyGuess(guess);
+		}
 	}
 
 	// =================================================================================
