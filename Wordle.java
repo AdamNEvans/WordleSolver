@@ -11,25 +11,26 @@ public class Wordle
 	{
 		Scanner in = new Scanner(System.in);
 		System.out.println("Is the goal word known?");
-		String answer = in.nextLine();
 
-		if (answer.equals("y") || answer.equals("yes"))
+		String answer = in.nextLine();
+		boolean autoplay = (answer.equals("y") || answer.equals("yes"));
+		WordleSolver solver = getSolver(in);
+
+		if (autoplay)
 		{
-			autoplayKnownGoal();
+			autoplayKnownGoal(solver);
 		}
 		else
 		{
-			playInteractiveWithUnknownGoal();
+			playInteractiveWithUnknownGoal(solver);
 		}
 	}
 
 	// =================================================================================
 
-	public static void autoplayKnownGoal() throws Exception
+	public static void autoplayKnownGoal(WordleSolver solver) throws Exception
 	{
 		Scanner in = new Scanner(System.in);
-		ArrayList<String> wordList = loadWords(new File("words5.txt"));
-		WordleSolver solver = new WordleSolver(wordList);
 
 		System.out.print("Enter goal word: ");
 		System.out.flush();
@@ -37,49 +38,41 @@ public class Wordle
 		String goal = in.nextLine().strip().toLowerCase();
 		System.out.println("Goal: '" + goal + "'");
 
-		GuessStrategy strategy = getStrategy(in);
-
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
 			System.out.println();
-			Guess guess = new Guess(solver.getNextGuessWord(strategy), null);
+			Guess guess = new Guess(solver.getNextGuessWord(), null);
+			guess.populateResultsAgainst(goal);
+			solver.applyGuess(guess);
 
-			if (guess.getWord().equals(goal))
+			if (solver.hasWon())
 			{
 				System.out.println("SUCCESS!!!");
 				System.out.println("Took " + (i + 1) + " guesses");
 				System.exit(0);
 			}
-
-			guess.populateResultsAgainst(goal);
-			solver.applyGuess(guess);
 		}
 
 		System.out.println();
 		System.out.println("FAILED");
-		System.out.println("Remaining possibilities:");
-		System.out.println(solver.getPossibilities().toString());
 	}
 
 	// =================================================================================
 
-	public static void playInteractiveWithUnknownGoal() throws Exception
+	public static void playInteractiveWithUnknownGoal(WordleSolver solver) throws Exception
 	{
 		Scanner in = new Scanner(System.in);
-		ArrayList<String> wordList = loadWords(new File("words5.txt"));
-		WordleSolver solver = new WordleSolver(wordList);
-		GuessStrategy strategy = getStrategy(in);
 
 		System.out.println();
 		System.out.println("When entering guess results, enter one character per letter, using the key:");
-		System.out.println("  '.' -> letter is not in the goal word");
-		System.out.println("  '#' -> letter is in the correct position");
-		System.out.println("  '?' -> letter is in the wrong position");
+		System.out.println("  '.' -> letter is not in the goal word (gray letter)");
+		System.out.println("  '#' -> letter is in the correct position (green letter)");
+		System.out.println("  '?' -> letter is in the wrong position (yellow letter)");
 		System.out.println();
 
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
-			String recommendedGuessWord = solver.getNextGuessWord(strategy);
+			String recommendedGuessWord = solver.getNextGuessWord();
 			System.out.println("Recommended guess: '" + recommendedGuessWord + "'");
 			System.out.print("Enter your guess: ");
 			System.out.flush();
@@ -91,40 +84,70 @@ public class Wordle
 			Guess guess = new Guess(guessWord, Utilities.resultsFromString(resultString));
 
 			solver.applyGuess(guess);
+
+			if (solver.hasWon())
+			{
+				System.out.println("SUCCESS!");
+				break;
+			}
 		}
 	}
 
 	// =================================================================================
 
-	public static GuessStrategy getStrategy(Scanner in)
+	public static WordleSolver getSolver(Scanner in) throws Exception
 	{
-		GuessStrategy[] strategies = {
-			new NoDupesStrategy(),
+		// first solver is default
+		WordleSolver[] solvers = {
+			new NoDupesSolver(),
 		};
+
+		int choice = 0;
 
 		while (true)
 		{
-			System.out.println("What guess strategy should I use?");
+			System.out.println("What solver/guess strategy should I use?");
 
-			for (int i = 0; i < strategies.length; i++)
+			for (int i = 0; i < solvers.length; i++)
 			{
 				String defaultText = (i == 0 ? " (default)" : "");
-				System.out.println("" + i + ": " + strategies[i].getName() + defaultText);
+				System.out.println("" + i + ": " + solvers[i].getName() + defaultText);
 			}
 
 			try
 			{
-				int choice = Integer.parseInt(in.nextLine());
+				String input = in.nextLine();
 
-				if (choice >= 0 && choice < strategies.length)
+				if (input.equals(""))
 				{
-					return strategies[choice];
+					// use the default solver
+					choice = 0;
+					break;
+				}
+				else
+				{
+					choice = Integer.parseInt(input);
+
+					if (choice >= 0 && choice < solvers.length)
+					{
+						// valid choice
+						break;
+					}
 				}
 			}
 			catch (Exception e) {}   // ignore the exception if we fail to parse the int
 
-			System.out.println("ERROR: Invalid strategy");
+			System.out.println("ERROR: Invalid solver");
 		}
+
+		// initialize the chosen solver
+		if (choice == 0)
+		{
+			NoDupesSolver solver = (NoDupesSolver)solvers[choice];
+			solver.initialize(loadWords(new File("words5.txt")));
+		}
+
+		return solvers[choice];
 	}
 
 	// =================================================================================

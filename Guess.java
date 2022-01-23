@@ -145,6 +145,13 @@ public class Guess
 
 	// =================================================================================
 
+	public final LetterComparisonResult[] getResults()
+	{
+		return results;
+	}
+
+	// =================================================================================
+
 	public String toString()
 	{
 		return guess + ": " + Arrays.toString(results);
