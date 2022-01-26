@@ -1,5 +1,8 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Wordle
 {
@@ -12,7 +15,7 @@ public class Wordle
 		Scanner in = new Scanner(System.in);
 		System.out.println("Is the goal word known?");
 
-		String answer = in.nextLine();
+		String answer = in.nextLine().strip();
 		boolean autoplay = (answer.equals("y") || answer.equals("yes"));
 		WordleSolver solver = getSolver(in);
 
@@ -28,25 +31,27 @@ public class Wordle
 
 	// =================================================================================
 
-	public static void autoplayKnownGoal(WordleSolver solver) throws Exception
+	public static void autoplayKnownGoal(WordleSolver solver)
 	{
 		Scanner in = new Scanner(System.in);
-
 		System.out.print("Enter goal word: ");
 		System.out.flush();
 
-		String goal = in.nextLine().strip().toLowerCase();
+		String goal = in.nextLine().strip().toUpperCase();
 		System.out.println("Goal: '" + goal + "'");
 
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
 			Guess guess = new Guess(solver.getNextGuessWord(), null);
 			guess.populateResultsAgainst(goal);
+
+			System.out.println("Guess #" + (i + 1) + ": " + guess.getWord());
+			System.out.println("Results: " + Utilities.stringFromResults(guess.getResults()));
 			solver.applyGuess(guess);
 
 			if (solver.hasWon())
 			{
-				System.out.println("SUCCESS!!!");
+				System.out.println("\nSUCCESS!!!");
 				System.out.println("Took " + (i + 1) + " guesses");
 				System.exit(0);
 			}
@@ -72,14 +77,15 @@ public class Wordle
 		for (int i = 0; i < MAX_GUESSES; i++)
 		{
 			String recommendedGuessWord = solver.getNextGuessWord();
+			System.out.println("Guess #" + (i + 1));
 			System.out.println("Recommended guess: '" + recommendedGuessWord + "'");
 			System.out.print("Enter your guess: ");
 			System.out.flush();
-			String guessWord = in.nextLine();
+			String guessWord = in.nextLine().strip();
 
 			System.out.print("Enter the result: ");
 			System.out.flush();
-			String resultString = in.nextLine();
+			String resultString = in.nextLine().strip();
 			Guess guess = new Guess(guessWord, Utilities.resultsFromString(resultString));
 
 			solver.applyGuess(guess);
@@ -115,7 +121,7 @@ public class Wordle
 
 			try
 			{
-				String input = in.nextLine();
+				String input = in.nextLine().strip();
 
 				if (input.equals(""))
 				{
@@ -140,43 +146,18 @@ public class Wordle
 		}
 
 		// initialize the chosen solver
-		if (choice == 0)
-		{
-			NoDupesSolver solver = (NoDupesSolver)solvers[choice];
-			solver.initialize(loadWords(new File("words5.txt")), true);
-		}
-
-		return solvers[choice];
-	}
-
-	// =================================================================================
-
-	public static ArrayList<String> loadWords(File file) throws Exception
-	{
-		Scanner in = new Scanner(file);
-		ArrayList<String> words = new ArrayList<String>(20000);
+		WordleSolver solverChoice = solvers[choice];
+		solverChoice.initialize(loadWords("wordle.txt"));
 		
-		while (in.hasNextLine())
-		{
-			words.add(in.nextLine().strip().toLowerCase());
-		}
-
-		return words;
+		return solverChoice;
 	}
 
 	// =================================================================================
-	// use for debugging with custom lists
-	public static ArrayList<String> loadWords2(File unused)
+	public static Set<String> loadWords(String fileName) throws Exception
 	{
-		ArrayList<String> words = new ArrayList<String>();
-		words.add("abhor");
-		words.add("abide");
-		words.add("abmho");
-		words.add("abnet");
-		words.add("abbey");
-
-		return words;
+		//Purposefully uppercase all the words
+		return Files.lines(Paths.get(fileName))
+				.map(String::toUpperCase)
+				.collect(Collectors.toSet());
 	}
-
-	// =================================================================================
 }
