@@ -160,4 +160,15 @@ public class Wordle
 				.map(String::toUpperCase)
 				.collect(Collectors.toSet());
 	}
+
+	public static List<String> loadWords2(File unused)
+	{
+		return List.of(
+			"abhor",
+			"abide",
+			"abmho",
+			"abnet",
+			"abbey"
+		);
+	}
 }
