@@ -30,6 +30,7 @@ public class Utilities
 			if (guessChars[i] == goalChars[i])
 			{
 				results[i] = LetterComparisonResult.EXACT;
+				goalLettersUsed[i] = true;
 			}
 		}
 
@@ -46,6 +47,7 @@ public class Utilities
 					{
 						results[i] = LetterComparisonResult.WRONG_INDEX;
 						goalLettersUsed[j] = true;
+						break;
 					}
 				}
 			}
