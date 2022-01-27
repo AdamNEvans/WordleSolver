@@ -147,8 +147,12 @@ public class Wordle
 
 		// initialize the chosen solver
 		WordleSolver solverChoice = solvers[choice];
-		solverChoice.initialize(loadWords("words5.txt"));
-		
+
+		switch(choice)
+		{
+			case 0 -> ((NoDupesSolver)solverChoice).initialize(loadWords("words5.txt"), true);
+		}
+
 		return solverChoice;
 	}
 

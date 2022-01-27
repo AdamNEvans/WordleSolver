@@ -8,7 +8,6 @@ public class NoDupesSolver implements WordleSolver
 
 	// =================================================================================
 
-	@Override
 	public void initialize(Collection<String> possibleAnswers, boolean enablePrints)
 	{
 		answers = new ArrayList<String>(possibleAnswers);

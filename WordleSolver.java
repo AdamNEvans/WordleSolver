@@ -1,5 +1,3 @@
-import java.util.Collection;
-
 public interface WordleSolver
 {
 	String getName();
@@ -8,11 +6,4 @@ public interface WordleSolver
 
 	// Requires guess.results to be filled out
 	void applyGuess(Guess guess);
-
-	default void initialize(Collection<String> possibleAnswers)
-	{
-		initialize(possibleAnswers, true);
-	}
-
-	void initialize(Collection<String> words, boolean enablePrints);
 }
