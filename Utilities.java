@@ -1,12 +1,33 @@
-import java.io.*;
 import java.util.*;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.*;
 
 enum LetterComparisonResult
 {
-	UNKNOWN,
-	EXACT,
-	WRONG,
-	WRONG_INDEX,
+	UNKNOWN("x"),
+	EXACT("#"),
+	WRONG("."),
+	WRONG_INDEX("?");
+
+	private String stringRepresentation;
+
+	LetterComparisonResult(String stringRepresentation)
+	{
+		this.stringRepresentation = stringRepresentation;
+	}
+
+	String getStringRepresentation()
+	{
+		return stringRepresentation;
+	}
+
+	public static Optional<LetterComparisonResult> fromStringRepresentation(String stringRepresentation)
+	{
+		return Arrays.stream(values())
+				.filter(result -> result.getStringRepresentation().equals(stringRepresentation))
+				.findFirst();
+	}
 };
 
 public class Utilities
@@ -17,11 +38,20 @@ public class Utilities
 	{
 		int goalSize = goal.length();
 		int guessSize = guess.length();
-		int minSize = (goalSize < guessSize ? goalSize : guessSize);
+		int minSize = Math.min(goalSize, guessSize);
+
+		//Generate the count of each letter. Use this when determining yellow/green letters
+		Map<Character, Long> characterCounts = goal.chars()
+				.mapToObj(c -> (char)c)
+				.collect(
+						groupingBy(
+								Function.identity(),
+								counting()
+						)
+				);
 
 		char[] goalChars = goal.toCharArray();
 		char[] guessChars = guess.toCharArray();
-		boolean[] goalLettersUsed = new boolean[goalSize];
 		LetterComparisonResult[] results = new LetterComparisonResult[guessSize];
 
 		// Check for exact matches
@@ -30,6 +60,16 @@ public class Utilities
 			if (guessChars[i] == goalChars[i])
 			{
 				results[i] = LetterComparisonResult.EXACT;
+
+				//We found a match. Decrement the count for this letter
+				characterCounts.merge(
+					guessChars[i],
+					0L,
+					(x, y) -> {
+						x--;
+						return x <= 0 ? null : x;
+					}
+				);
 			}
 		}
 
@@ -42,10 +82,22 @@ public class Utilities
 
 				for (int j = 0; j < goalSize; j++)
 				{
-					if (!goalLettersUsed[j] && goalChars[j] == guessChars[i])
+					//We're making a call to containsKey(...) here to know if there are any more counts of this letter
+					//If there aren't, don't mark it yellow. Keep it gray
+					if(goalChars[j] == guessChars[i] && characterCounts.containsKey(guessChars[i]))
 					{
 						results[i] = LetterComparisonResult.WRONG_INDEX;
-						goalLettersUsed[j] = true;
+
+						//We found a yellow letter. Decrement the count for this letter
+						characterCounts.merge(
+								guessChars[i],
+								0L,
+								(x, y) -> {
+									x--;
+									return x <= 0 ? null : x;
+								}
+						);
+
 					}
 				}
 			}
@@ -88,6 +140,13 @@ public class Utilities
 		}
 
 		return results;
+	}
+
+	public static String stringFromResults(LetterComparisonResult[] result)
+	{
+		return Arrays.stream(result)
+				.map(LetterComparisonResult::getStringRepresentation)
+				.collect(joining());
 	}
 
 	// =================================================================================
