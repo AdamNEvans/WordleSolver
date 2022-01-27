@@ -5,27 +5,27 @@ import static java.util.stream.Collectors.*;
 
 enum LetterComparisonResult
 {
-	UNKNOWN("x"),
-	EXACT("#"),
-	WRONG("."),
-	WRONG_INDEX("?");
+	UNKNOWN('x'),
+	EXACT('#'),
+	WRONG('.'),
+	WRONG_INDEX('?');
 
-	private String stringRepresentation;
+	private char charRepresentation;
 
-	LetterComparisonResult(String stringRepresentation)
+	LetterComparisonResult(char charRepresentation)
 	{
-		this.stringRepresentation = stringRepresentation;
+		this.charRepresentation = charRepresentation;
 	}
 
-	String getStringRepresentation()
+	char getCharRepresentation()
 	{
-		return stringRepresentation;
+		return charRepresentation;
 	}
 
-	public static Optional<LetterComparisonResult> fromStringRepresentation(String stringRepresentation)
+	public static Optional<LetterComparisonResult> fromStringRepresentation(char stringRepresentation)
 	{
 		return Arrays.stream(values())
-				.filter(result -> result.getStringRepresentation().equals(stringRepresentation))
+				.filter(result -> result.getCharRepresentation() == stringRepresentation)
 				.findFirst();
 	}
 };
@@ -145,7 +145,8 @@ public class Utilities
 	public static String stringFromResults(LetterComparisonResult[] result)
 	{
 		return Arrays.stream(result)
-				.map(LetterComparisonResult::getStringRepresentation)
+				.map(LetterComparisonResult::getCharRepresentation)
+				.map(String::valueOf)
 				.collect(joining());
 	}
 
