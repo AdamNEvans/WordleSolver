@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 public class NoDupesSolver implements WordleSolver
@@ -9,6 +8,7 @@ public class NoDupesSolver implements WordleSolver
 
 	// =================================================================================
 
+	@Override
 	public void initialize(Collection<String> possibleAnswers, boolean enablePrints)
 	{
 		answers = new ArrayList<String>(possibleAnswers);

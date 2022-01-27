@@ -9,5 +9,10 @@ public interface WordleSolver
 	// Requires guess.results to be filled out
 	void applyGuess(Guess guess);
 
-	void initialize(Collection<String> words);
+	default void initialize(Collection<String> possibleAnswers)
+	{
+		initialize(possibleAnswers, true);
+	}
+
+	void initialize(Collection<String> words, boolean enablePrints);
 }
