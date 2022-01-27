@@ -147,7 +147,7 @@ public class Wordle
 
 		// initialize the chosen solver
 		WordleSolver solverChoice = solvers[choice];
-		solverChoice.initialize(loadWords("wordle.txt"));
+		solverChoice.initialize(loadWords("words5.txt"));
 		
 		return solverChoice;
 	}
