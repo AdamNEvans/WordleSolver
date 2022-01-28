@@ -1,11 +1,10 @@
 import java.util.*;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
 
 enum LetterComparisonResult
 {
-	UNKNOWN('x'),
+	UNKNOWN('@'),
 	EXACT('#'),
 	WRONG('.'),
 	WRONG_INDEX('?');
@@ -22,11 +21,12 @@ enum LetterComparisonResult
 		return charRepresentation;
 	}
 
-	public static Optional<LetterComparisonResult> fromStringRepresentation(char stringRepresentation)
+	public static LetterComparisonResult fromCharRepresentation(char charRepresentation)
 	{
 		return Arrays.stream(values())
-				.filter(result -> result.getCharRepresentation() == stringRepresentation)
-				.findFirst();
+				.filter(result -> result.getCharRepresentation() == charRepresentation)
+				.findFirst()
+				.orElse(UNKNOWN);
 	}
 };
 
@@ -85,32 +85,12 @@ public class Utilities
 	// '?' -> inexact
 	public static LetterComparisonResult[] resultsFromString(String resultString)
 	{
-		char[] chars = resultString.toCharArray();
-		LetterComparisonResult[] results = new LetterComparisonResult[resultString.length()];
-
-		for (int i = 0; i < chars.length; i++)
-		{
-			switch (chars[i])
-			{
-				case '.':
-					results[i] = LetterComparisonResult.WRONG;
-					break;
-
-				case '#':
-					results[i] = LetterComparisonResult.EXACT;
-					break;
-
-				case '?':
-					results[i] = LetterComparisonResult.WRONG_INDEX;
-					break;
-
-				default:
-					System.out.println("ERROR: Invalid result char '" + chars[i] + "'");
-					break;
-			}
-		}
-
-		return results;
+		//Stream through the characters and call the static fromCharRepresentation(...) method
+		//then collect back in an array
+		return resultString.chars()
+				.mapToObj(c -> (char)c)
+				.map(LetterComparisonResult::fromCharRepresentation)
+				.toArray(LetterComparisonResult[]::new);
 	}
 
 	public static String stringFromResults(LetterComparisonResult[] result)
