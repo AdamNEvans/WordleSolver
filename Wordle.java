@@ -81,7 +81,7 @@ public class Wordle
 			System.out.println("Recommended guess: '" + recommendedGuessWord + "'");
 			System.out.print("Enter your guess: ");
 			System.out.flush();
-			String guessWord = in.nextLine().strip();
+			String guessWord = in.nextLine().strip().toUpperCase();
 
 			System.out.print("Enter the result: ");
 			System.out.flush();

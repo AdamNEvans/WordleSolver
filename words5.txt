@@ -1713,7 +1713,6 @@ cered
 cerer
 ceria
 ceric
-cerin
 certy
 ceryl
 cetic
@@ -8165,7 +8164,6 @@ sotie
 Sotik
 sotol
 sough
-souly
 sound
 soupy
 soury
