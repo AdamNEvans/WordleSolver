@@ -12299,8 +12299,6 @@ araphorostic
 arapunga
 Araquaju
 arar
-Arara
-arara
 araracanga
 ararao
 ararauna
@@ -57882,7 +57880,6 @@ drinker
 drinking
 drinkless
 drinkproof
-drinn
 drip
 dripper
 dripping
@@ -108453,7 +108450,6 @@ louisine
 louk
 Loukas
 loukoum
-loulu
 lounder
 lounderer
 lounge
@@ -128540,7 +128536,6 @@ nullisome
 nullisomic
 nullity
 nulliverse
-nullo
 Numa
 Numantine
 numb
@@ -130236,7 +130231,6 @@ oinomel
 oint
 ointment
 Oireachtas
-oisin
 oisivity
 oitava
 oiticica
@@ -131065,7 +131059,6 @@ oolak
 oolemma
 oolite
 oolitic
-oolly
 oologic
 oological
 oologically
@@ -182194,7 +182187,6 @@ sithement
 sithence
 sithens
 sitient
-sitio
 sitiology
 sitiomania
 sitiophobia
@@ -184695,8 +184687,6 @@ soliloquizing
 soliloquizingly
 soliloquy
 solilunar
-Solio
-solio
 soliped
 solipedal
 solipedous
@@ -218264,7 +218254,6 @@ uninjuriously
 uninjuriousness
 uninked
 uninlaid
-uninn
 uninnate
 uninnocence
 uninnocent
@@ -220001,7 +219990,6 @@ unoil
 unoiled
 unoiling
 unoily
-unold
 unomened
 unominous
 unomitted
@@ -225770,7 +225758,6 @@ urbanization
 urbanize
 urbarial
 urbian
-urbic
 Urbicolae
 urbicolous
 urbification

@@ -536,8 +536,6 @@ arado
 arain
 arake
 Aramu
-Arara
-arara
 arati
 Araua
 Arawa
@@ -2648,7 +2646,6 @@ drier
 drift
 drill
 drink
-drinn
 drisk
 drive
 drogh
@@ -5983,7 +5980,6 @@ nucal
 nucha
 nucin
 nudge
-nullo
 numda
 numen
 nummi
@@ -6055,7 +6051,6 @@ ohelo
 ohmic
 oiled
 oiler
-oisin
 okapi
 okrug
 Olcha
@@ -6092,7 +6087,6 @@ onset
 ontal
 onymy
 oolak
-oolly
 oopak
 oopod
 ootid
@@ -6700,7 +6694,6 @@ prest
 prexy
 Price
 price
-prich
 prick
 pride
 pridy
@@ -7871,7 +7864,6 @@ sitao
 sitar
 sitch
 sithe
-sitio
 Sitka
 Sitta
 situs
@@ -8130,8 +8122,6 @@ solen
 soler
 soles
 solid
-Solio
-solio
 solod
 Solon
 solon
@@ -9180,7 +9170,6 @@ trona
 tronc
 trone
 troop
-troot
 trope
 troth
 trout
@@ -9410,7 +9399,6 @@ Uniat
 uniat
 unice
 unify
-uninn
 union
 unite
 unity
@@ -9437,7 +9425,6 @@ unmix
 unnew
 unode
 unoil
-unold
 Unona
 unorn
 unown
@@ -9522,7 +9509,6 @@ urase
 urate
 Urban
 urban
-urbic
 urdee
 ureal
 Uredo

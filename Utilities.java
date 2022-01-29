@@ -1,12 +1,33 @@
-import java.io.*;
 import java.util.*;
+
+import static java.util.stream.Collectors.*;
 
 enum LetterComparisonResult
 {
-	UNKNOWN,
-	EXACT,
-	WRONG,
-	WRONG_INDEX,
+	UNKNOWN('@'),
+	EXACT('#'),
+	WRONG('.'),
+	WRONG_INDEX('?');
+
+	private char charRepresentation;
+
+	LetterComparisonResult(char charRepresentation)
+	{
+		this.charRepresentation = charRepresentation;
+	}
+
+	char getCharRepresentation()
+	{
+		return charRepresentation;
+	}
+
+	public static LetterComparisonResult fromCharRepresentation(char charRepresentation)
+	{
+		return Arrays.stream(values())
+				.filter(result -> result.getCharRepresentation() == charRepresentation)
+				.findFirst()
+				.orElse(UNKNOWN);
+	}
 };
 
 public class Utilities
@@ -17,7 +38,7 @@ public class Utilities
 	{
 		int goalSize = goal.length();
 		int guessSize = guess.length();
-		int minSize = (goalSize < guessSize ? goalSize : guessSize);
+		int minSize = Math.min(goalSize, guessSize);
 
 		char[] goalChars = goal.toCharArray();
 		char[] guessChars = guess.toCharArray();
@@ -64,32 +85,20 @@ public class Utilities
 	// '?' -> inexact
 	public static LetterComparisonResult[] resultsFromString(String resultString)
 	{
-		char[] chars = resultString.toCharArray();
-		LetterComparisonResult[] results = new LetterComparisonResult[resultString.length()];
+		//Stream through the characters and call the static fromCharRepresentation(...) method
+		//then collect back in an array
+		return resultString.chars()
+				.mapToObj(c -> (char)c)
+				.map(LetterComparisonResult::fromCharRepresentation)
+				.toArray(LetterComparisonResult[]::new);
+	}
 
-		for (int i = 0; i < chars.length; i++)
-		{
-			switch (chars[i])
-			{
-				case '.':
-					results[i] = LetterComparisonResult.WRONG;
-					break;
-
-				case '#':
-					results[i] = LetterComparisonResult.EXACT;
-					break;
-
-				case '?':
-					results[i] = LetterComparisonResult.WRONG_INDEX;
-					break;
-
-				default:
-					System.out.println("ERROR: Invalid result char '" + chars[i] + "'");
-					break;
-			}
-		}
-
-		return results;
+	public static String stringFromResults(LetterComparisonResult[] result)
+	{
+		return Arrays.stream(result)
+				.map(LetterComparisonResult::getCharRepresentation)
+				.map(String::valueOf)
+				.collect(joining());
 	}
 
 	// =================================================================================
