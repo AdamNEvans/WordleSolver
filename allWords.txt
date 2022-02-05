@@ -1339,7 +1339,6 @@ achenial
 achenium
 achenocarp
 achenodium
-acher
 Achernar
 Acheronian
 Acherontic
@@ -60743,7 +60742,6 @@ ellwand
 elm
 Elmer
 elmy
-Eloah
 elocular
 elocute
 elocution
@@ -70822,7 +70820,6 @@ fleaseed
 fleaweed
 fleawood
 fleawort
-fleay
 flebile
 fleche
 flechette
@@ -105526,7 +105523,6 @@ Lenaeum
 Lenaeus
 Lenape
 lenard
-Lenca
 Lencan
 lench
 lend
@@ -107301,7 +107297,6 @@ litany
 litanywise
 litas
 litation
-litch
 litchi
 lite
 liter
@@ -145054,7 +145049,6 @@ Phororhacos
 phoroscope
 phorozooid
 phos
-phose
 phosgene
 phosgenic
 phosgenite
@@ -175586,7 +175580,6 @@ scotchman
 Scotchness
 Scotchwoman
 Scotchy
-scote
 scoter
 scoterythrous
 Scotia
@@ -192611,7 +192604,6 @@ subquality
 subquestion
 subquinquefid
 subquintuple
-Subra
 subrace
 subradial
 subradiance

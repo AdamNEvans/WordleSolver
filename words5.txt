@@ -65,7 +65,6 @@ acedy
 acerb
 achar
 Achen
-acher
 achor
 acier
 acker
@@ -2816,7 +2815,6 @@ elite
 Eliza
 Ellen
 Elmer
-Eloah
 eloge
 elope
 elops
@@ -3171,7 +3169,6 @@ flawn
 flawy
 flaxy
 fleam
-fleay
 fleck
 fleer
 fleet
@@ -4943,7 +4940,6 @@ Lemna
 lemon
 lemur
 lenad
-Lenca
 lench
 Lendu
 lenis
@@ -5050,7 +5046,6 @@ lippy
 Lisle
 lisle
 litas
-litch
 liter
 lithe
 lithi
@@ -6446,7 +6441,6 @@ phone
 phono
 phony
 Phora
-phose
 photo
 phyla
 phyle
@@ -7520,7 +7514,6 @@ scope
 scops
 score
 scorn
-scote
 Scots
 Scott
 scouk
@@ -8490,7 +8483,6 @@ suant
 suave
 subah
 suber
-Subra
 succi
 sucre
 Sudan
