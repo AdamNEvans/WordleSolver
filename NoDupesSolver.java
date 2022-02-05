@@ -43,15 +43,24 @@ public class NoDupesSolver implements WordleSolver
 
 	public String getNextGuessWord()
 	{
+		ArrayList<String> list = new ArrayList<String>(answers.size());
+
 		for (String word : answers)
 		{
 			if (Utilities.allCharsUnique(word))
 			{
-				return word;
+				list.add(word);
 			}
 		}
 
-		return answers.get(0);
+		if (list.size() > 0)
+		{
+			int index = (int)(Math.random() * list.size());
+			return list.get(index);
+		}
+
+		int index = (int)(Math.random() * answers.size());
+		return answers.get(index);
 	}
 
 	// =================================================================================
