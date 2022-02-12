@@ -19362,7 +19362,6 @@ Baume
 baumhauerite
 baun
 bauno
-Baure
 bauson
 bausond
 bauta
@@ -35550,9 +35549,7 @@ chouette
 chough
 chouka
 choultry
-choup
 chouquette
-chous
 chouse
 chouser
 chousingha
@@ -68329,7 +68326,6 @@ farmplace
 farmstead
 farmsteading
 farmtown
-farmy
 farmyard
 farmyardy
 farnesol
@@ -77697,7 +77693,6 @@ glebous
 Glecoma
 glede
 Gleditsia
-gledy
 glee
 gleed
 gleeful
@@ -87886,7 +87881,6 @@ Hsi
 Hsuan
 Hu
 huaca
-huaco
 huajillo
 huamuchil
 huantajayite
@@ -99412,7 +99406,6 @@ jagrata
 jagua
 jaguar
 jaguarete
-Jahve
 Jahvist
 Jahvistic
 jail
@@ -103947,7 +103940,6 @@ Lampyridae
 lampyrine
 Lampyris
 Lamus
-Lamut
 lamziekte
 lan
 Lana
@@ -104702,7 +104694,6 @@ latria
 Latrididae
 latrine
 Latris
-latro
 latrobe
 latrobite
 latrocinium
@@ -109086,7 +109077,6 @@ lut
 lutaceous
 lutanist
 lutany
-Lutao
 lutation
 Lutayo
 lute
@@ -109139,7 +109129,6 @@ lutist
 Lutjanidae
 Lutjanus
 lutose
-Lutra
 Lutraria
 Lutreola
 lutrin
@@ -112357,7 +112346,6 @@ matronship
 matronymic
 matross
 Mats
-matsu
 matsuri
 Matt
 matta
@@ -130140,7 +130128,6 @@ ogeed
 ogganition
 ogham
 oghamic
-Oghuz
 ogival
 ogive
 ogived
@@ -174033,7 +174020,6 @@ sauternes
 sauteur
 sauty
 Sauvagesia
-sauve
 sauvegarde
 savable
 savableness
@@ -202735,7 +202721,6 @@ thrustings
 thrutch
 thrutchings
 Thruthvang
-thruv
 thrymsa
 Thryonomys
 Thuan
@@ -205652,7 +205637,6 @@ tram
 trama
 tramal
 tramcar
-trame
 Trametes
 tramful
 tramless
