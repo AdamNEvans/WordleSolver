@@ -1177,7 +1177,6 @@ blaff
 blain
 Blair
 blair
-Blake
 blake
 blame
 blanc
@@ -1558,7 +1557,6 @@ cadge
 cadgy
 cadre
 cadua
-cadus
 caeca
 caffa
 cafiz
@@ -1672,6 +1670,7 @@ catty
 cauch
 cauda
 cauld
+caulk
 cauma
 caupo
 cause
@@ -1681,7 +1680,6 @@ cavel
 Cavia
 cavie
 cavil
-cavus
 cawky
 caxon
 Ccoya
@@ -2049,7 +2047,6 @@ copra
 copse
 copsy
 copus
-coque
 corah
 coral
 coram
@@ -3789,7 +3786,6 @@ guijo
 guild
 guile
 guilt
-guily
 guise
 Gujar
 gulae
@@ -3856,7 +3852,6 @@ Haida
 Haikh
 haily
 haine
-haire
 hairy
 hajib
 hakam
@@ -4856,7 +4851,6 @@ Larix
 larky
 Larry
 larry
-Larus
 larva
 larve
 laser
@@ -5304,7 +5298,6 @@ Marko
 Marla
 marli
 marly
-marok
 marry
 Marsh
 marsh
@@ -6234,8 +6227,6 @@ palmy
 palpi
 palsy
 Palta
-Palus
-palus
 Pamir
 Panak
 panax
@@ -7996,7 +7987,6 @@ smelt
 smeth
 smich
 smile
-smily
 smirk
 smite
 smith
@@ -8840,7 +8830,6 @@ tharf
 tharm
 thatn
 thats
-thave
 thawn
 thawy
 theah
@@ -9592,7 +9581,6 @@ vedro
 veery
 veily
 veiny
-Vejoz
 velal
 velar
 veldt
@@ -9739,7 +9727,6 @@ waled
 Waler
 waler
 wally
-walsh
 walth
 waltz
 wamel
@@ -9871,7 +9858,6 @@ whilk
 whill
 whils
 whine
-whing
 whiny
 whipt
 whirl
