@@ -2557,7 +2557,6 @@ Donar
 donax
 donee
 Donet
-doney
 donga
 Donia
 Donna
@@ -5417,7 +5416,6 @@ metal
 metel
 meter
 metic
-Metin
 metis
 Metol
 metra
@@ -6126,7 +6124,6 @@ Ostic
 otary
 otate
 other
-Othin
 otkon
 Otomi
 ottar
