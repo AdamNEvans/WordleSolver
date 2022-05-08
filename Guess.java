@@ -85,7 +85,19 @@ public class Guess
 		{
 			if (results[i] == LetterComparisonResult.WRONG)
 			{
-				if (input.indexOf(guessChars[i]) >= 0)
+				int index = 0;
+
+				while (index < wordSize)
+				{
+					if ((inputChars[index] == guessChars[i]) && !inputLettersUsed[index])
+					{
+						break;
+					}
+
+					index++;
+				}
+
+				if (index < wordSize)
 				{
 					// input shouldn't contain this letter but it does
 					return false;

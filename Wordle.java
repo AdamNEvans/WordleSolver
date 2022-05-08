@@ -159,20 +159,17 @@ public class Wordle
 	// =================================================================================
 	public static Set<String> loadWords(String fileName) throws Exception
 	{
-		//Purposefully uppercase all the words
+		// Purposefully uppercase all the words
 		return Files.lines(Paths.get(fileName))
 				.map(String::toUpperCase)
 				.collect(Collectors.toSet());
 	}
 
-	public static List<String> loadWords2(File unused)
+	public static List<String> loadWords2(String unusedFilename)
 	{
 		return List.of(
-			"abhor",
-			"abide",
-			"abmho",
-			"abnet",
-			"abbey"
+			"CANNY",
+			"ADUNC"
 		);
 	}
 }

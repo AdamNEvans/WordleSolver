@@ -87,7 +87,7 @@ public class NoDupesSolver implements WordleSolver
 
 		if (printsEnabled)
 		{
-			System.out.println("" + answers.size() + " possbilities left:");
+			System.out.println("" + answers.size() + " possibilities left:");
 
 			if (answers.size() < 200)
 			{
